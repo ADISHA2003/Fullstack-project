@@ -1,30 +1,29 @@
-// src/App.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+import FindUserByNumber from './Find';
+import UpdateUser from './update';
+import DeleteUser from './Delete';
 
 function App() {
   const [users, setUsers] = useState([]);
-  const [firstname, setFirstName] = useState('');
-  const [lastname, setLastName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [number, setNumber] = useState('');
 
-  // Fetch users from the backend when the component mounts
   useEffect(() => {
     axios.get('http://localhost:3001/users')
       .then(response => setUsers(response.data))
       .catch(error => console.error(error));
   }, []);
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newUser = { first_name: firstname, last_name: lastname, email, number };
+    const newUser = { first_name: firstName, last_name: lastName, email, number };
     axios.post('http://localhost:3001/users', newUser)
-        .then(response => {
-        setUsers([...users, response.data]); // Update users list
-        // Reset form fields
+      .then(response => {
+        setUsers([...users, response.data]);
         setFirstName('');
         setLastName('');
         setEmail('');
@@ -34,45 +33,60 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>User List</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="First Name"
-          value={firstname} // Updated to use lowercase
-          onChange={e => setFirstName(e.target.value)} // Updated to use lowercase
-          required // Make it required
-        />
-        <input
-          type="text"
-          placeholder="Last Name"
-          value={lastname} // Updated to use lowercase
-          onChange={e => setLastName(e.target.value)} // Updated to use lowercase
-          required // Make it required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required // Make it required
-        />
-        <input
-          type="text" // Change type to text to allow maxLength
-          placeholder="Mobile No."
-          value={number}
-          onChange={e => {
-          const value = e.target.value;
-          // Check if the input is a number and has a maximum length of 10
-          if (/^\d{0,10}$/.test(value)) {
-          setNumber(value);
-            }
-          }}
-          required // Make it required
-        />
-        <button type="submit">Add User</button>
-      </form>
+    <div className="App">
+      <header className="App-header">
+        <h1>User Management</h1>
+      </header>
+      <div className="grid-container">
+        <div className="grid-item">
+          <h2>Add User</h2>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="First Name"
+              value={firstName}
+              onChange={e => setFirstName(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Last Name"
+              value={lastName}
+              onChange={e => setLastName(e.target.value)}
+              required
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Mobile No."
+              value={number}
+              onChange={e => {
+                const value = e.target.value;
+                if (/^\d{0,10}$/.test(value)) {
+                  setNumber(value);
+                }
+              }}
+              required
+            />
+            <button type="submit">Add User</button>
+          </form>
+        </div>
+        <div className="grid-item">
+          <FindUserByNumber />
+        </div>
+        <div className="grid-item">
+          <UpdateUser />
+        </div>
+        <div className="grid-item">
+          <DeleteUser />
+        </div>
+      </div>
     </div>
   );
 }

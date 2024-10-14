@@ -21,16 +21,60 @@ app.post('/users', async (req, res) => {
     }
 });
 
-// // Get all users
-// app.get('/users', async (req, res) => {
-//     try {
-//         const users = await User.findAll(); 
-//         res.json(users); 
-//     } catch (error) {
-//         console.error('Error fetching users:', error); 
-//         res.status(500).json({ error: 'Error fetching users' }); 
-//     }
-// });
+// Get user by mobile number
+app.get('/users/by-number/:number', async (req, res) => {
+    const number = req.params.number;
+    try {
+        const user = await User.findOne({ where: { number }, logging: console.log });
+      if (user) {
+        res.json(user);
+      } else {
+        res.status(404).json({ error: 'User not found' });
+      }
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      res.status(500).json({ error: 'Error fetching user' });
+    }
+});
+
+// Update a user by their original email
+app.put('/users/update', async (req, res) => {
+    const { originalEmail, email, number } = req.body; 
+
+    try {
+      const updatedUser = await User.update(
+        { email, number }, 
+        { where: { email: originalEmail }, returning: true } 
+      );
+  
+      if (updatedUser[0] === 1) { 
+        res.json(updatedUser[1][0]); 
+      } else {
+        res.status(404).json({ error: 'User not found' });
+      }
+    } catch (error) {
+      console.error('Error updating user:', error);
+      res.status(500).json({ error: 'Error updating user' });
+    }
+});  
+
+// Delete a user by email
+app.delete('/users/delete/:email', async (req, res) => {
+    const email = req.params.email;
+  
+    try {
+      const deletedUser = await User.destroy({ where: { email } });
+  
+      if (deletedUser === 1) {
+        res.json({ message: 'User deleted successfully' });
+      } else {
+        res.status(404).json({ error: 'User not found' });
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      res.status(500).json({ error: 'Error deleting user' });
+    }
+});
 
 // Start the server
 const PORT = process.env.PORT || 3001; // Allow environment variable for port
