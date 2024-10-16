@@ -4,7 +4,9 @@ const cors = require('cors');
 const User = require('./models/User'); // Make sure the path is correct
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'https://fullstack-project-frontend-lilac.vercel.app'
+}));
 app.use(express.json()); // To parse JSON bodies
 
 // Create a new user
