@@ -9,12 +9,17 @@ body {
   justify-content: center;
   min-height: 100vh; /* Ensure body covers full viewport height */
 }
+@media (max-width: 768px) {
+  body {
+    padding: 0px 10px;
+  }
+}
 
 .App {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%; /* Adjust width as needed */
+  width: 100%; /* Adjust width as needed */
   max-width: 800px; /* Limit maximum width for larger screens */
 }
 
@@ -39,7 +44,9 @@ h1 {
   display: flex;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
   gap: 20px;
-  width: 100%; /* Grid container takes full available width */
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 768px) {

@@ -37,7 +37,7 @@ function UpdateUser() {
 
   return (
     <div>
-      <h2>Update User</h2>
+      <h2>Update Email and Phone Number</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="originalEmail">Original Email:</label>
