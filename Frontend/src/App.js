@@ -5,6 +5,8 @@ import FindUserByNumber from './Find';
 import UpdateUser from './update';
 import DeleteUser from './Delete';
 
+const BACKEND_URL = 'https://fullstack-project-kappa-ten.vercel.app/';
+
 function App() {
   const [users, setUsers] = useState([]);
   const [firstName, setFirstName] = useState('');
@@ -13,7 +15,7 @@ function App() {
   const [number, setNumber] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:3001/users')
+    axios.get(`${BACKEND_URL}/users`)
       .then(response => setUsers(response.data))
       .catch(error => console.error(error));
   }, []);
@@ -21,7 +23,7 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newUser = { first_name: firstName, last_name: lastName, email, number };
-    axios.post('http://localhost:3001/users', newUser)
+    axios.post(`${BACKEND_URL}/users`, newUser)
       .then(response => {
         setUsers([...users, response.data]);
         setFirstName('');
