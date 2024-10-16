@@ -78,6 +78,10 @@ app.delete('/users/delete/:email', async (req, res) => {
     }
 });
 
+app.get('/', (req, res) => {
+  res.send('Backend server is running!'); // Or send a JSON response
+});
+
 // Start the server
 const PORT = process.env.PORT || 3001; // Allow environment variable for port
 app.listen(PORT, () => {
