@@ -21,7 +21,8 @@ const User = sequelize.define('users', {
         allowNull: false,
     },
 }, {
-    timestamps: true, // This enables createdAt and updatedAt fields automatically
+    timestamps: true, // Enable timestamps
+    underscored: true, // Use snake_case for column names
 });
 
 module.exports = User;
