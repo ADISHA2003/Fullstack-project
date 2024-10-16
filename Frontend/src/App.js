@@ -5,7 +5,7 @@ import FindUserByNumber from './Find';
 import UpdateUser from './update';
 import DeleteUser from './Delete';
 
-const BACKEND_URL = 'https://fullstack-project-kappa-ten.vercel.app/';
+const BACKEND_URL = 'https://fullstack-project-kappa-ten.vercel.app';
 
 function App() {
   const [users, setUsers] = useState([]);
